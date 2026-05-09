@@ -134,11 +134,14 @@ habit-tracker/
 ## ブランチ戦略
 
 main 
-├── feature/setup # 初期設定・DB・CORS・JWT基盤 
-├── feature/auth # 認証（登録・ログイン・ログアウト） 
-├── feature/habits # 習慣CRUD API 
-├── feature/checkins # チェックオフ・ストリーク API 
-└── feature/frontend # Reactフロント全般
+├── feature/setup         # 初期設定・DB・CORS・JWT基盤 
+├── feature/auth          # 認証（登録・ログイン・ログアウト） 
+├── feature/habits        # 習慣CRUD API 
+├── feature/checkins      # チェックオフ・ストリーク API 
+├── feature/frontend      # フロント初期構成・認証画面 
+├── feature/frontend-home # ホーム画面（習慣一覧・チェックオフ・週間グリッド）
+├── feature/frontend-crud # 習慣CRUD・ログアウト
+└── feature/frontend-mypage # マイページ（プロフィール表示・編集）
 
 ### ルール
 - 各featureブランチはmainから作成
@@ -158,6 +161,15 @@ main
 - 機能ごとにブランチを切って作成
 - 各ブランチ完成後にcurlで動作確認してからmainへマージ
 - バックエンド完成後にフロントエンドを実装
+
+## フロントエンド実装ステップ
+
+| # | ブランチ | 内容 | 状態 |
+|---|---------|------|------|
+| 1 | `feature/frontend` | Vite初期構成・認証画面（ログイン・新規登録） | PR #4（マージ待ち） |
+| 2 | `feature/frontend-home` | ホーム画面：習慣一覧カード・チェックオフ・ストリーク・週間グリッド | 未着手 |
+| 3 | `feature/frontend-crud` | 習慣の追加・編集・削除モーダル、ログアウト | 未着手 |
+| 4 | `feature/frontend-mypage` | マイページ：プロフィール表示・編集 | 未着手 |
 
 ---
 
