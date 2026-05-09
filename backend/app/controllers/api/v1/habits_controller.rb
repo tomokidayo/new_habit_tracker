@@ -2,7 +2,7 @@ class Api::V1::HabitsController < Api::V1::BaseController
   before_action :set_habit, only: [:update, :destroy]
 
   def index
-    habits = current_user.habits
+    habits = current_user.habits.includes(:checkins)
     render json: { habits: habits.map { |h| serialize_habit(h) } }
   end
 

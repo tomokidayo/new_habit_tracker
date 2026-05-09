@@ -48,6 +48,15 @@ RSpec.describe Habit, type: :model do
         expect(habit.streak).to eq(5)
       end
     end
+
+    context "includes(:checkins)でeager loadされている場合" do
+      it "DBクエリを追加せずstreakを計算する" do
+        create(:checkin, habit: habit, checked_on: today)
+        loaded_habit = Habit.includes(:checkins).find(habit.id)
+        expect(loaded_habit.checkins.loaded?).to be true
+        expect(loaded_habit.streak).to eq(1)
+      end
+    end
   end
 
   describe "#checked_today?" do
