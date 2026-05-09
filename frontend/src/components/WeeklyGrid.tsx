@@ -1,5 +1,5 @@
 import type { Checkin } from '../types'
-import { toJSTDateString, jstWeekDays } from '../utils/date'
+import { toJSTDateString, jstWeekDays, dayOfWeek } from '../utils/date'
 
 const DAY_LABELS = ['日', '月', '火', '水', '木', '金', '土']
 
@@ -14,8 +14,7 @@ export default function WeeklyGrid({ checkins }: Props) {
 
   return (
     <div className="flex gap-1 mt-3">
-      {days.map((day) => {
-        const dateStr = toJSTDateString(day)
+      {days.map((dateStr) => {
         const checked = checkedDates.has(dateStr)
         const isToday = dateStr === today
 
@@ -30,7 +29,7 @@ export default function WeeklyGrid({ checkins }: Props) {
               {checked ? '✓' : ''}
             </div>
             <span className={`text-[10px] ${isToday ? 'text-indigo-500 font-semibold' : 'text-gray-400'}`}>
-              {DAY_LABELS[day.getDay()]}
+              {DAY_LABELS[dayOfWeek(dateStr)]}
             </span>
           </div>
         )

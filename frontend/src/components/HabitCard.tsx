@@ -11,10 +11,12 @@ type Props = {
 
 export default function HabitCard({ habit, checkins, onCheckinChange }: Props) {
   const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleToggle = async () => {
     if (submitting) return
     setSubmitting(true)
+    setError(null)
     try {
       if (habit.checked_today) {
         const res = await deleteCheckinToday(habit.id)
@@ -23,6 +25,8 @@ export default function HabitCard({ habit, checkins, onCheckinChange }: Props) {
         const res = await createCheckin(habit.id)
         onCheckinChange(habit.id, true, res.data.streak, res.data.checkin)
       }
+    } catch {
+      setError('更新に失敗しました')
     } finally {
       setSubmitting(false)
     }
@@ -53,6 +57,7 @@ export default function HabitCard({ habit, checkins, onCheckinChange }: Props) {
           ✓
         </button>
       </div>
+      {error && <p className="text-xs text-red-400 mt-2">{error}</p>}
       <WeeklyGrid checkins={checkins} />
     </div>
   )

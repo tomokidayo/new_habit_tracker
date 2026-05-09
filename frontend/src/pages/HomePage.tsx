@@ -8,6 +8,7 @@ export default function HomePage() {
   const [habits, setHabits] = useState<Habit[]>([])
   const [checkinMap, setCheckinMap] = useState<Record<number, Checkin[]>>({})
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,6 +20,8 @@ export default function HomePage() {
         const map: Record<number, Checkin[]> = {}
         habits.forEach((h, i) => { map[h.id] = results[i].data.checkins })
         setCheckinMap(map)
+      } catch {
+        setError('データの読み込みに失敗しました')
       } finally {
         setLoading(false)
       }
@@ -55,6 +58,8 @@ export default function HomePage() {
       <main className="px-4 py-4 max-w-lg mx-auto">
         {loading ? (
           <div className="flex justify-center py-16 text-gray-400">読み込み中...</div>
+        ) : error ? (
+          <div className="text-center py-16 text-red-400">{error}</div>
         ) : habits.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-4xl mb-3">🌱</p>
