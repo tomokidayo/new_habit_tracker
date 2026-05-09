@@ -100,6 +100,12 @@ RSpec.describe "Api::V1::Habits", type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
+
+      it "emojiが空の場合は422を返す" do
+        patch "/api/v1/habits/#{habit.id}", params: { habit: { emoji: "" } }, headers: headers, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
     end
   end
 
