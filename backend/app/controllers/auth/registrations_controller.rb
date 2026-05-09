@@ -1,10 +1,10 @@
 class Auth::RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
-  private
-
-  def respond_with(resource, _opts = {})
-    if resource.persisted?
+  def create
+    build_resource(sign_up_params)
+    if resource.save
+      sign_in(resource_name, resource, store: false)
       render json: {
         user: {
           id: resource.id,
@@ -16,6 +16,8 @@ class Auth::RegistrationsController < Devise::RegistrationsController
       render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
+  private
 
   def sign_up_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
