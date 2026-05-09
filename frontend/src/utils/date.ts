@@ -12,5 +12,5 @@ export const jstWeekDays = (): string[] => {
 
 export const dayOfWeek = (dateStr: string): number => {
   const [y, m, d] = dateStr.split('-').map(Number)
-  return new Date(Date.UTC(y, m - 1, d)).getDay()
+  return new Date(Date.UTC(y, m - 1, d)).getUTCDay()
 }
