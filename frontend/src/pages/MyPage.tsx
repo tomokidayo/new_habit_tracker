@@ -39,7 +39,9 @@ export default function MyPage() {
     }
   }
 
-  const initials = (user?.name ?? '?').charAt(0).toUpperCase()
+  if (!user) return null
+
+  const initials = user.name.charAt(0).toUpperCase()
 
   return (
     <div className="min-h-screen bg-gray-50">
