@@ -1,0 +1,45 @@
+# Ruby / Rails
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+/tmp/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Rails
+/backend/config/master.key
+/backend/config/credentials/*.key
+/backend/log/
+/backend/tmp/
+/backend/storage/
+/backend/.byebug_history
+/backend/db/*.sqlite3
+/backend/db/*.sqlite3-journal
+/backend/public/system
+
+# Node / React
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.env
+/frontend/.env.local
+/frontend/.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
