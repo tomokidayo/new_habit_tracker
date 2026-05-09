@@ -20,7 +20,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :habits do
+      resources :habits, only: [:index, :create, :update, :destroy] do
         resources :checkins, only: [:index, :create] do
           collection do
             delete :today

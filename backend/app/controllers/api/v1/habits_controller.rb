@@ -1,5 +1,5 @@
 class Api::V1::HabitsController < Api::V1::BaseController
-  before_action :set_habit, only: [:show, :update, :destroy]
+  before_action :set_habit, only: [:update, :destroy]
 
   def index
     habits = current_user.habits

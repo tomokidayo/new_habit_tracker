@@ -39,7 +39,10 @@ RSpec.configure do |config|
     Rails.root.join('spec/fixtures')
   ]
   config.use_transactional_fixtures = true
+  Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
+
   config.include FactoryBot::Syntax::Methods
+  config.include AuthHelper
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
