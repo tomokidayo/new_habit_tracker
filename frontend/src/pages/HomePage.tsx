@@ -77,8 +77,8 @@ export default function HomePage() {
 
   const handleDelete = async () => {
     if (modal?.mode !== 'edit') return
-    await deleteHabit(modal.habit.id)
     const id = modal.habit.id
+    await deleteHabit(id)
     setHabits((prev) => prev.filter((h) => h.id !== id))
     setCheckinMap((prev) => { const next = { ...prev }; delete next[id]; return next })
   }

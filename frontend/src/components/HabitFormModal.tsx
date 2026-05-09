@@ -68,7 +68,7 @@ export default function HabitFormModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/40" onClick={submitting || deleting ? undefined : onClose} />
       <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-base font-bold text-gray-900">{title}</h2>
