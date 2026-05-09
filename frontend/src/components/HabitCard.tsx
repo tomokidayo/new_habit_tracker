@@ -7,9 +7,10 @@ type Props = {
   habit: Habit
   checkins: Checkin[]
   onCheckinChange: (habitId: number, checked: boolean, newStreak: number, checkin?: Checkin) => void
+  onEdit: (habit: Habit) => void
 }
 
-export default function HabitCard({ habit, checkins, onCheckinChange }: Props) {
+export default function HabitCard({ habit, checkins, onCheckinChange, onEdit }: Props) {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -35,10 +36,19 @@ export default function HabitCard({ habit, checkins, onCheckinChange }: Props) {
   return (
     <div className="bg-white rounded-2xl shadow-sm p-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <span className="text-3xl leading-none">{habit.emoji}</span>
-          <div>
-            <p className="font-medium text-gray-900">{habit.name}</p>
+        <div className="flex items-center gap-3 min-w-0">
+          <span className="text-3xl leading-none shrink-0">{habit.emoji}</span>
+          <div className="min-w-0">
+            <div className="flex items-center gap-1">
+              <p className="font-medium text-gray-900 truncate">{habit.name}</p>
+              <button
+                onClick={() => onEdit(habit)}
+                className="shrink-0 text-gray-300 hover:text-gray-500 transition-colors p-0.5"
+                aria-label="編集"
+              >
+                ✎
+              </button>
+            </div>
             <p className="text-sm text-gray-400 mt-0.5">
               {habit.streak > 0 ? `🔥 ${habit.streak}日連続` : '今日からスタート'}
             </p>
@@ -47,7 +57,7 @@ export default function HabitCard({ habit, checkins, onCheckinChange }: Props) {
         <button
           onClick={handleToggle}
           disabled={submitting}
-          className={`w-11 h-11 rounded-full flex items-center justify-center text-lg transition-all
+          className={`w-11 h-11 rounded-full flex items-center justify-center text-lg transition-all shrink-0 ml-2
             ${habit.checked_today
               ? 'bg-indigo-500 text-white shadow-sm shadow-indigo-200'
               : 'border-2 border-gray-200 text-gray-300 hover:border-indigo-300 hover:text-indigo-300'
