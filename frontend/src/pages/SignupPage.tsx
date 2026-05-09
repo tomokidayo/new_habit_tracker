@@ -18,7 +18,8 @@ export default function SignupPage() {
     setLoading(true)
     try {
       const res = await signup(name, email, password)
-      const token = res.headers['authorization']?.replace('Bearer ', '') ?? ''
+      const token = res.headers['authorization']?.replace('Bearer ', '')
+      if (!token) throw new Error('token missing')
       setAuth(token, res.data.user)
       navigate('/')
     } catch (err: unknown) {

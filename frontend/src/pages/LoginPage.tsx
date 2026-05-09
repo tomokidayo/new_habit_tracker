@@ -17,7 +17,8 @@ export default function LoginPage() {
     setLoading(true)
     try {
       const res = await login(email, password)
-      const token = res.headers['authorization']?.replace('Bearer ', '') ?? ''
+      const token = res.headers['authorization']?.replace('Bearer ', '')
+      if (!token) throw new Error('token missing')
       setAuth(token, res.data.user)
       navigate('/')
     } catch {
