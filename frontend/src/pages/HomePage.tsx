@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { Habit, Checkin } from '../types'
 import { getHabits, getCheckins, createHabit, updateHabit, deleteHabit } from '../api/habits'
-import { logout } from '../api/auth'
 import { useAuth } from '../contexts/AuthContext'
 import { toJSTDateString } from '../utils/date'
 import HabitCard from '../components/HabitCard'
@@ -14,7 +13,7 @@ type ModalState =
   | null
 
 export default function HomePage() {
-  const { clearAuth } = useAuth()
+  const { user } = useAuth()
   const navigate = useNavigate()
   const [habits, setHabits] = useState<Habit[]>([])
   const [checkinMap, setCheckinMap] = useState<Record<number, Checkin[]>>({})
@@ -83,15 +82,6 @@ export default function HomePage() {
     setCheckinMap((prev) => { const next = { ...prev }; delete next[id]; return next })
   }
 
-  const handleLogout = async () => {
-    try {
-      await logout()
-    } finally {
-      clearAuth()
-      navigate('/login')
-    }
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white border-b border-gray-100 px-4 py-4 sticky top-0 z-10">
@@ -106,10 +96,11 @@ export default function HomePage() {
               +
             </button>
             <button
-              onClick={handleLogout}
-              className="text-sm text-gray-400 hover:text-gray-600 px-2 py-1"
+              onClick={() => navigate('/mypage')}
+              className="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center text-sm font-bold text-indigo-500 hover:bg-indigo-200 transition-colors"
+              aria-label="マイページ"
             >
-              ログアウト
+              {(user?.name ?? '?').charAt(0).toUpperCase()}
             </button>
           </div>
         </div>
