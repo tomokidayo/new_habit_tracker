@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react'
 
+const PRESET_EMOJIS = [
+  '🏃', '🚴', '🧘', '🏋️', '🤸', '🏊', '🚶', '⛹️',
+  '📚', '✍️', '🎵', '🎨', '💻', '🗣️', '🧩', '📝',
+  '🥗', '💊', '🍵', '🥤', '😴', '🛁', '🦷', '🧴',
+  '🧹', '🐕', '💰', '🌱', '🙏', '❤️', '😊', '⭐',
+]
+
 type Props = {
   isOpen: boolean
   onClose: () => void
@@ -21,6 +28,7 @@ export default function HabitFormModal({
 }: Props) {
   const [name, setName] = useState(initialName)
   const [emoji, setEmoji] = useState(initialEmoji)
+  const [customEmoji, setCustomEmoji] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -30,6 +38,7 @@ export default function HabitFormModal({
     if (isOpen) {
       setName(initialName)
       setEmoji(initialEmoji)
+      setCustomEmoji(PRESET_EMOJIS.includes(initialEmoji) ? '' : initialEmoji)
       setError('')
       setConfirmDelete(false)
     }
@@ -80,16 +89,40 @@ export default function HabitFormModal({
             <p className="text-sm text-red-500 bg-red-50 rounded-lg px-3 py-2">{error}</p>
           )}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">絵文字</label>
-            <input
-              type="text"
-              value={emoji}
-              onChange={(e) => setEmoji(e.target.value)}
-              required
-              maxLength={2}
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-2xl text-center focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              placeholder="🏃"
-            />
+            <label className="block text-sm font-medium text-gray-700 mb-2">絵文字</label>
+            <div className="grid grid-cols-8 gap-1 mb-3">
+              {PRESET_EMOJIS.map((e) => (
+                <button
+                  key={e}
+                  type="button"
+                  onClick={() => { setEmoji(e); setCustomEmoji('') }}
+                  className={`text-xl py-1 rounded-lg transition-colors ${
+                    emoji === e && customEmoji === ''
+                      ? 'bg-indigo-100 ring-2 ring-indigo-400'
+                      : 'hover:bg-gray-100'
+                  }`}
+                >
+                  {e}
+                </button>
+              ))}
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-400 whitespace-nowrap">その他</span>
+              <input
+                type="text"
+                value={customEmoji}
+                onChange={(e) => {
+                  const val = e.target.value
+                  setCustomEmoji(val)
+                  if (val.trim()) setEmoji(val.trim())
+                }}
+                maxLength={2}
+                className={`w-16 border rounded-xl px-2 py-1.5 text-xl text-center focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-colors ${
+                  customEmoji ? 'border-indigo-400 bg-indigo-50' : 'border-gray-200'
+                }`}
+                placeholder="✏️"
+              />
+            </div>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">習慣名</label>
