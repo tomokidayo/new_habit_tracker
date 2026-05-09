@@ -40,6 +40,16 @@ RSpec.describe "Auth::Sessions", type: :request do
 
         expect(response).to have_http_status(:ok)
       end
+
+      it "ログアウト後のトークンは無効になる" do
+        post "/auth/login", params: { user: { email: "test@example.com", password: "password123" } }, as: :json
+        token = response.headers["Authorization"]
+
+        delete "/auth/logout", headers: { "Authorization" => token }
+
+        get "/api/v1/users/me", headers: { "Authorization" => token }
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
 
     context "異常系" do
