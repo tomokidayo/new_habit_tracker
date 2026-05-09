@@ -2,7 +2,8 @@ class Api::V1::CheckinsController < Api::V1::BaseController
   before_action :set_habit
 
   def index
-    checkins = @habit.checkins.order(checked_on: :desc)
+    today = Time.current.in_time_zone("Asia/Tokyo").to_date
+    checkins = @habit.checkins.where(checked_on: (today - 6)..today).order(checked_on: :asc)
     render json: { checkins: checkins }
   end
 
@@ -10,7 +11,7 @@ class Api::V1::CheckinsController < Api::V1::BaseController
     today = Time.current.in_time_zone("Asia/Tokyo").to_date
     checkin = @habit.checkins.build(checked_on: today)
     if checkin.save
-      render json: { checkin: checkin }, status: :created
+      render json: { checkin: checkin, streak: @habit.streak }, status: :created
     else
       render json: { errors: checkin.errors.full_messages }, status: :unprocessable_entity
     end
@@ -21,7 +22,7 @@ class Api::V1::CheckinsController < Api::V1::BaseController
     checkin = @habit.checkins.find_by(checked_on: today)
     if checkin
       checkin.destroy
-      head :no_content
+      render json: { streak: @habit.streak }
     else
       render json: { error: "No checkin found for today" }, status: :not_found
     end

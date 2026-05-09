@@ -3,14 +3,14 @@ class Api::V1::HabitsController < Api::V1::BaseController
 
   def index
     habits = current_user.habits
-    render json: { habits: habits }
+    render json: { habits: habits.map { |h| serialize_habit(h) } }
   end
 
   def create
     habit = current_user.habits.build(habit_params)
     habit.position = current_user.habits.maximum(:position).to_i + 1
     if habit.save
-      render json: { habit: habit }, status: :created
+      render json: { habit: serialize_habit(habit) }, status: :created
     else
       render json: { errors: habit.errors.full_messages }, status: :unprocessable_entity
     end
@@ -18,7 +18,7 @@ class Api::V1::HabitsController < Api::V1::BaseController
 
   def update
     if @habit.update(habit_params)
-      render json: { habit: @habit }
+      render json: { habit: serialize_habit(@habit) }
     else
       render json: { errors: @habit.errors.full_messages }, status: :unprocessable_entity
     end
@@ -39,5 +39,12 @@ class Api::V1::HabitsController < Api::V1::BaseController
 
   def habit_params
     params.require(:habit).permit(:name, :emoji, :position)
+  end
+
+  def serialize_habit(habit)
+    habit.as_json.merge(
+      streak: habit.streak,
+      checked_today: habit.checked_today?
+    )
   end
 end
