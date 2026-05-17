@@ -110,5 +110,5 @@ erDiagram
 
 ## デプロイ先
 
-- フロントエンド: https://habit-tracker-frontend-prod-7c48728fa5d5.herokuapp.com
-- バックエンドAPI: https://habit-tracker-api-prod-4ff102475103.herokuapp.com
+https://habit-tracker-frontend-prod-7c48728fa5d5.herokuapp.com
+
