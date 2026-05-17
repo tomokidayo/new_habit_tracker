@@ -8,7 +8,8 @@
 
 ## アプリのスクショ
 
-> ※スクリーンショットをここに追加してください
+<img width="536" height="428" alt="スクリーンショット 2026-05-12 21 16 33" src="https://github.com/user-attachments/assets/2efdc7ec-7f75-46ff-9fd4-d1268819af28" />
+
 
 ---
 
