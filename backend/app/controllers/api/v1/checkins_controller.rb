@@ -1,9 +1,11 @@
 class Api::V1::CheckinsController < Api::V1::BaseController
+  WEEKLY_GRID_DAYS = 7
+
   before_action :set_habit
 
   def index
     today = Time.current.in_time_zone("Asia/Tokyo").to_date
-    checkins = @habit.checkins.where(checked_on: (today - 6)..today).order(checked_on: :asc)
+    checkins = @habit.checkins.where(checked_on: (today - (WEEKLY_GRID_DAYS - 1))..today).order(checked_on: :asc)
     render json: { checkins: checkins }
   end
 

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { signup } from '../api/auth'
 import { useAuth } from '../contexts/AuthContext'
+import { USER_NAME_MAX_LENGTH, PASSWORD_MIN_LENGTH } from '../constants'
 
 export default function SignupPage() {
   const { setAuth } = useAuth()
@@ -47,7 +48,7 @@ export default function SignupPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              maxLength={50}
+              maxLength={USER_NAME_MAX_LENGTH}
               className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
               placeholder="あなたの名前"
             />
@@ -70,7 +71,7 @@ export default function SignupPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              minLength={8}
+              minLength={PASSWORD_MIN_LENGTH}
               className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
               placeholder="8文字以上"
             />

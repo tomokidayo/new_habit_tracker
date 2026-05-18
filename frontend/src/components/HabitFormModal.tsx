@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { HABIT_NAME_MAX_LENGTH, EMOJI_MAX_LENGTH } from '../constants'
 
 const PRESET_EMOJIS = [
   '🏃', '🚴', '🧘', '🏋️', '🤸', '🏊', '🚶', '⛹️',
@@ -116,7 +117,7 @@ export default function HabitFormModal({
                   setCustomEmoji(val)
                   if (val.trim()) setEmoji(val.trim())
                 }}
-                maxLength={2}
+                maxLength={EMOJI_MAX_LENGTH}
                 className={`w-16 border rounded-xl px-2 py-1.5 text-xl text-center focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-colors ${
                   customEmoji ? 'border-indigo-400 bg-indigo-50' : 'border-gray-200'
                 }`}
@@ -131,7 +132,7 @@ export default function HabitFormModal({
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              maxLength={50}
+              maxLength={HABIT_NAME_MAX_LENGTH}
               className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
               placeholder="例: ランニング"
             />

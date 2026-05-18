@@ -1,9 +1,13 @@
 class Habit < ApplicationRecord
+  NAME_MAX_LENGTH = 50
+  EMOJI_MAX_LENGTH = 2
+  STREAK_LOOKBACK_DAYS = 365
+
   belongs_to :user
   has_many :checkins, dependent: :destroy
 
-  validates :name, presence: true, length: { maximum: 50 }
-  validates :emoji, presence: true, length: { maximum: 2 }
+  validates :name, presence: true, length: { maximum: NAME_MAX_LENGTH }
+  validates :emoji, presence: true, length: { maximum: EMOJI_MAX_LENGTH }
 
   default_scope { order(:position) }
 
@@ -12,7 +16,7 @@ class Habit < ApplicationRecord
     checked_dates = if checkins.loaded?
       checkins.map(&:checked_on).to_set
     else
-      checkins.where(checked_on: (today - 365)..today).pluck(:checked_on).to_set
+      checkins.where(checked_on: (today - STREAK_LOOKBACK_DAYS)..today).pluck(:checked_on).to_set
     end
 
     current = checked_dates.include?(today) ? today : today - 1

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { HTTP_STATUS_UNAUTHORIZED } from '../constants'
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001',
@@ -15,7 +16,7 @@ client.interceptors.request.use((config) => {
 client.interceptors.response.use(
   (res) => res,
   (error) => {
-    if (error.response?.status === 401) {
+    if (error.response?.status === HTTP_STATUS_UNAUTHORIZED) {
       localStorage.removeItem('token')
       if (window.location.pathname !== '/login') {
         window.location.href = '/login'
