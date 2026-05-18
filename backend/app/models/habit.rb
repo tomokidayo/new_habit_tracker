@@ -12,7 +12,7 @@ class Habit < ApplicationRecord
   default_scope { order(:position) }
 
   def streak
-    today = Time.current.in_time_zone("Asia/Tokyo").to_date
+    today = Time.zone.today
     checked_dates = if checkins.loaded?
       checkins.map(&:checked_on).to_set
     else
@@ -29,7 +29,7 @@ class Habit < ApplicationRecord
   end
 
   def checked_today?
-    today = Time.current.in_time_zone("Asia/Tokyo").to_date
+    today = Time.zone.today
     if checkins.loaded?
       checkins.any? { |c| c.checked_on == today }
     else

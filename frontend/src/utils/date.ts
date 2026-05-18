@@ -1,13 +1,13 @@
-import { WEEK_DAYS } from '../constants'
+import { WEEKLY_GRID_DAYS, TIMEZONE_JST, ISO_DATE_LOCALE } from '../constants'
 
 export const toJSTDateString = (date = new Date()): string =>
-  new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo' }).format(date)
+  new Intl.DateTimeFormat(ISO_DATE_LOCALE, { timeZone: TIMEZONE_JST }).format(date)
 
 export const jstWeekDays = (): string[] => {
   const todayStr = toJSTDateString()
   const [y, m, d] = todayStr.split('-').map(Number)
-  return Array.from({ length: WEEK_DAYS }, (_, i) => {
-    const date = new Date(Date.UTC(y, m - 1, d - (WEEK_DAYS - 1 - i)))
+  return Array.from({ length: WEEKLY_GRID_DAYS }, (_, i) => {
+    const date = new Date(Date.UTC(y, m - 1, d - (WEEKLY_GRID_DAYS - 1 - i)))
     return toJSTDateString(date)
   })
 }
