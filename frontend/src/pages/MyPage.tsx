@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { updateMe, logout } from '../api/auth'
 import { useAuth } from '../contexts/AuthContext'
+import { USER_NAME_MAX_LENGTH } from '../constants'
 
 export default function MyPage() {
   const { user, updateUser, clearAuth } = useAuth()
@@ -79,7 +80,7 @@ export default function MyPage() {
               value={name}
               onChange={(e) => { setName(e.target.value); setSuccess(false) }}
               required
-              maxLength={50}
+              maxLength={USER_NAME_MAX_LENGTH}
               className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
           </div>

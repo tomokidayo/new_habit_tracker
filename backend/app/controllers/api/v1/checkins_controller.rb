@@ -1,14 +1,16 @@
 class Api::V1::CheckinsController < Api::V1::BaseController
+  WEEKLY_GRID_DAYS = 7
+
   before_action :set_habit
 
   def index
-    today = Time.current.in_time_zone("Asia/Tokyo").to_date
-    checkins = @habit.checkins.where(checked_on: (today - 6)..today).order(checked_on: :asc)
+    today = Time.zone.today
+    checkins = @habit.checkins.where(checked_on: (today - (WEEKLY_GRID_DAYS - 1))..today).order(checked_on: :asc)
     render json: { checkins: checkins }
   end
 
   def create
-    today = Time.current.in_time_zone("Asia/Tokyo").to_date
+    today = Time.zone.today
     checkin = @habit.checkins.build(checked_on: today)
     if checkin.save
       render json: { checkin: checkin, streak: @habit.streak }, status: :created
@@ -18,7 +20,7 @@ class Api::V1::CheckinsController < Api::V1::BaseController
   end
 
   def today
-    today = Time.current.in_time_zone("Asia/Tokyo").to_date
+    today = Time.zone.today
     checkin = @habit.checkins.find_by(checked_on: today)
     if checkin
       checkin.destroy

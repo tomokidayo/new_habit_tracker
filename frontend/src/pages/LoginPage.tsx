@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { login } from '../api/auth'
 import { useAuth } from '../contexts/AuthContext'
+import { PASSWORD_MIN_LENGTH } from '../constants'
 
 export default function LoginPage() {
   const { setAuth } = useAuth()
@@ -54,7 +55,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              minLength={8}
+              minLength={PASSWORD_MIN_LENGTH}
               className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
               placeholder="8文字以上"
             />
