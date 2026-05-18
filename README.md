@@ -5,6 +5,16 @@
 毎日の習慣を記録・可視化するミニマルな習慣トラッカーアプリ。習慣のチェックオフ・ストリーク管理・週間グリッドによる振り返りができる。
 
 ---
+## デプロイ先
+
+URL: https://habit-tracker-frontend-prod-7c48728fa5d5.herokuapp.com
+
+### ゲストアカウント
+メールアドレス：test@test.com
+パスワード：test1234
+
+
+---
 
 ## アプリのスクショ
 
@@ -108,8 +118,4 @@ erDiagram
 | デプロイ | Heroku |
 
 ---
-
-## デプロイ先
-
-https://habit-tracker-frontend-prod-7c48728fa5d5.herokuapp.com
 
