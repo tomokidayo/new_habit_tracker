@@ -7,11 +7,11 @@
 ---
 ## デプロイ先
 
-URL: https://habit-tracker-frontend-prod-7c48728fa5d5.herokuapp.com
+- URL: https://habit-tracker-frontend-prod-7c48728fa5d5.herokuapp.com
 
 ### ゲストアカウント
-メールアドレス：test@test.com
-パスワード：test1234
+- メールアドレス：test@test.com
+- パスワード：test1234
 
 
 ---
