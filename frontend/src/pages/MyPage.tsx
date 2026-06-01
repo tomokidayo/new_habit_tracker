@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { updateMe, logout } from '../api/auth'
+import { updateMe, updatePassword, logout } from '../api/auth'
 import { useAuth } from '../contexts/AuthContext'
-import { USER_NAME_MAX_LENGTH } from '../constants'
+import { USER_NAME_MAX_LENGTH, PASSWORD_MIN_LENGTH } from '../constants'
 
 export default function MyPage() {
   const { user, updateUser, clearAuth } = useAuth()
@@ -13,6 +13,13 @@ export default function MyPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const [passwordSuccess, setPasswordSuccess] = useState(false)
+  const [passwordSubmitting, setPasswordSubmitting] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,6 +35,29 @@ export default function MyPage() {
       setError(messages?.join(', ') ?? '更新に失敗しました')
     } finally {
       setSubmitting(false)
+    }
+  }
+
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setPasswordError('')
+    setPasswordSuccess(false)
+    if (newPassword !== confirmPassword) {
+      setPasswordError('新しいパスワードと確認用パスワードが一致しません')
+      return
+    }
+    setPasswordSubmitting(true)
+    try {
+      await updatePassword(currentPassword, newPassword, confirmPassword)
+      setPasswordSuccess(true)
+      setCurrentPassword('')
+      setNewPassword('')
+      setConfirmPassword('')
+    } catch (err: unknown) {
+      const messages = (err as { response?: { data?: { errors?: string[] } } }).response?.data?.errors
+      setPasswordError(messages?.join(', ') ?? 'パスワードの変更に失敗しました')
+    } finally {
+      setPasswordSubmitting(false)
     }
   }
 
@@ -100,6 +130,58 @@ export default function MyPage() {
             className="w-full bg-indigo-500 text-white rounded-xl py-3 text-sm font-medium hover:bg-indigo-600 disabled:opacity-50 transition-colors"
           >
             {submitting ? '保存中...' : '保存する'}
+          </button>
+        </form>
+
+        <form onSubmit={handlePasswordSubmit} className="bg-white rounded-2xl shadow-sm p-6 space-y-4 mt-4">
+          <h2 className="text-sm font-semibold text-gray-700">パスワード変更</h2>
+          {passwordError && (
+            <p className="text-sm text-red-500 bg-red-50 rounded-lg px-3 py-2">{passwordError}</p>
+          )}
+          {passwordSuccess && (
+            <p className="text-sm text-indigo-500 bg-indigo-50 rounded-lg px-3 py-2">パスワードを変更しました</p>
+          )}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">現在のパスワード</label>
+            <input
+              type="password"
+              value={currentPassword}
+              onChange={(e) => { setCurrentPassword(e.target.value); setPasswordSuccess(false) }}
+              required
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="現在のパスワード"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">新しいパスワード</label>
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(e) => { setNewPassword(e.target.value); setPasswordSuccess(false) }}
+              required
+              minLength={PASSWORD_MIN_LENGTH}
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="8文字以上"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">確認用パスワード</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => { setConfirmPassword(e.target.value); setPasswordSuccess(false) }}
+              required
+              minLength={PASSWORD_MIN_LENGTH}
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="新しいパスワードを再入力"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={passwordSubmitting}
+            className="w-full bg-indigo-500 text-white rounded-xl py-3 text-sm font-medium hover:bg-indigo-600 disabled:opacity-50 transition-colors"
+          >
+            {passwordSubmitting ? '変更中...' : 'パスワードを変更する'}
           </button>
         </form>
 

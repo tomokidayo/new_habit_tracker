@@ -17,6 +17,7 @@ Rails.application.routes.draw do
         collection do
           get :me
           patch :me, action: :update_me
+          patch :password, action: :update_password
         end
       end
 

@@ -23,9 +23,21 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
+  def update_password
+    if current_user.update_with_password(password_params)
+      render json: { message: 'パスワードを変更しました' }
+    else
+      render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :current_password)
+    params.require(:user).permit(:name, :email)
+  end
+
+  def password_params
+    params.require(:user).permit(:current_password, :password, :password_confirmation)
   end
 end
