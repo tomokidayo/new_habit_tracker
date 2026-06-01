@@ -9,7 +9,8 @@ Rails.application.routes.draw do
     controllers: {
       sessions: "auth/sessions",
       registrations: "auth/registrations"
-    }
+    },
+    skip: [:passwords]
 
   namespace :api do
     namespace :v1 do
@@ -30,6 +31,9 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  post  '/auth/password', to: 'auth/passwords#create'
+  patch '/auth/password', to: 'auth/passwords#update'
 
   get "up" => "rails/health#show", as: :rails_health_check
 end
