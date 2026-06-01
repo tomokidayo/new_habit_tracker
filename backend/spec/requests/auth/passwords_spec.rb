@@ -25,7 +25,7 @@ RSpec.describe "Auth::Passwords", type: :request do
   describe "PATCH /auth/password" do
     let(:raw_token) do
       raw, enc = Devise.token_generator.generate(User, :reset_password_token)
-      user.update_columns(reset_password_token: enc, reset_password_sent_at: Time.now.utc)
+      user.update_columns(reset_password_token: enc, reset_password_sent_at: Time.zone.now)
       raw
     end
 
@@ -41,6 +41,16 @@ RSpec.describe "Auth::Passwords", type: :request do
     end
 
     context "異常系" do
+      it "期限切れトークンでは422を返す" do
+        token = raw_token
+        user.update_columns(reset_password_sent_at: 7.hours.ago)
+        patch "/auth/password",
+          params: { user: { reset_password_token: token, password: "newpass456", password_confirmation: "newpass456" } },
+          as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
       it "無効なトークンでは422を返す" do
         patch "/auth/password",
           params: { user: { reset_password_token: "invalid", password: "newpass456", password_confirmation: "newpass456" } },

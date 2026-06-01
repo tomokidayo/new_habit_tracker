@@ -1,13 +1,11 @@
 class Auth::PasswordsController < ActionController::API
-  FRONTEND_RESET_URL = 'http://localhost:5173/reset-password'
-
   def create
     user = User.find_by(email: params.dig(:user, :email))
     if user
       raw, enc = Devise.token_generator.generate(User, :reset_password_token)
       user.update_columns(
         reset_password_token: enc,
-        reset_password_sent_at: Time.now.utc
+        reset_password_sent_at: Time.zone.now
       )
       UserMailer.reset_password_instructions(user, raw).deliver_now
     end
