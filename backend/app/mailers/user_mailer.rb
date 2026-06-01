@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  FRONTEND_RESET_URL = 'http://localhost:5173/reset-password'
+  FRONTEND_RESET_URL = "#{ENV.fetch('FRONTEND_URL', 'http://localhost:5173')}/reset-password"
 
   def reset_password_instructions(user, token)
     @user = user
