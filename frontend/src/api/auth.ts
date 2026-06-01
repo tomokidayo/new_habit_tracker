@@ -15,3 +15,8 @@ export const getMe = () =>
 
 export const updateMe = (name: string, email: string) =>
   client.patch<{ user: User }>('/api/v1/users/me', { user: { name, email } })
+
+export const updatePassword = (currentPassword: string, password: string, passwordConfirmation: string) =>
+  client.patch<{ message: string }>('/api/v1/users/password', {
+    user: { current_password: currentPassword, password, password_confirmation: passwordConfirmation }
+  })
