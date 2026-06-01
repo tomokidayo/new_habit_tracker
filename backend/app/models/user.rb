@@ -3,7 +3,7 @@ class User < ApplicationRecord
   PASSWORD_MIN_LENGTH = 8
 
   devise :database_authenticatable, :registerable,
-         :validatable, :jwt_authenticatable,
+         :recoverable, :validatable, :jwt_authenticatable,
          jwt_revocation_strategy: JwtDenylist
 
   has_many :habits, dependent: :destroy

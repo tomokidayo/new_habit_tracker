@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { login } from '../api/auth'
 import { useAuth } from '../contexts/AuthContext'
 import { PASSWORD_MIN_LENGTH } from '../constants'
@@ -7,6 +7,8 @@ import { PASSWORD_MIN_LENGTH } from '../constants'
 export default function LoginPage() {
   const { setAuth } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const notice = (location.state as { notice?: string } | null)?.notice
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -33,6 +35,9 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <h1 className="text-2xl font-bold text-center text-gray-900 mb-8">ログイン</h1>
+        {notice && (
+          <p className="text-sm text-indigo-500 bg-indigo-50 rounded-lg px-3 py-2 mb-4">{notice}</p>
+        )}
         <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm p-6 space-y-4">
           {error && (
             <p className="text-sm text-red-500 bg-red-50 rounded-lg px-3 py-2">{error}</p>
@@ -71,6 +76,9 @@ export default function LoginPage() {
         <p className="text-center text-sm text-gray-500 mt-4">
           アカウントをお持ちでない方は{' '}
           <Link to="/signup" className="text-indigo-500 font-medium">新規登録</Link>
+        </p>
+        <p className="text-center text-sm text-gray-400 mt-2">
+          <Link to="/forgot-password" className="hover:text-gray-600">パスワードをお忘れの方</Link>
         </p>
       </div>
     </div>
