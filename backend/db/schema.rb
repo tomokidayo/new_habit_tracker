@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_09_093056) do
+ActiveRecord::Schema[7.2].define(version: 2026_06_02_011257) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,17 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_09_093056) do
     t.datetime "updated_at", null: false
     t.index ["habit_id", "checked_on"], name: "index_checkins_on_habit_id_and_checked_on", unique: true
     t.index ["habit_id"], name: "index_checkins_on_habit_id"
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.bigint "follower_id", null: false
+    t.bigint "followee_id", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followee_id"], name: "index_follows_on_followee_id"
+    t.index ["follower_id", "followee_id"], name: "index_follows_on_follower_id_and_followee_id", unique: true
+    t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
   create_table "habits", force: :cascade do |t|
@@ -55,5 +66,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_09_093056) do
   end
 
   add_foreign_key "checkins", "habits"
+  add_foreign_key "follows", "users", column: "followee_id"
+  add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "habits", "users"
 end

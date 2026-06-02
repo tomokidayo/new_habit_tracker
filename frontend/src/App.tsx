@@ -6,6 +6,8 @@ import HomePage from './pages/HomePage'
 import MyPage from './pages/MyPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
+import FollowPage from './pages/FollowPage'
+import UserHabitsPage from './pages/UserHabitsPage'
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const { token, loading } = useAuth()
@@ -28,6 +30,8 @@ function AppRoutes() {
       <Route path="/reset-password" element={<PublicRoute><ResetPasswordPage /></PublicRoute>} />
       <Route path="/" element={<PrivateRoute><HomePage /></PrivateRoute>} />
       <Route path="/mypage" element={<PrivateRoute><MyPage /></PrivateRoute>} />
+      <Route path="/follow" element={<PrivateRoute><FollowPage /></PrivateRoute>} />
+      <Route path="/users/:id" element={<PrivateRoute><UserHabitsPage /></PrivateRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
