@@ -22,6 +22,13 @@ Rails.application.routes.draw do
         end
       end
 
+      get 'users/search',     to: 'users#search'
+      get 'users/:id/habits', to: 'users#followed_habits'
+
+      resources :follows, only: [:index, :create, :destroy] do
+        member { patch :accept }
+      end
+
       resources :habits, only: [:index, :create, :update, :destroy] do
         resources :checkins, only: [:index, :create] do
           collection do

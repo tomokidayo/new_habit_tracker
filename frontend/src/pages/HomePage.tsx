@@ -89,6 +89,13 @@ export default function HomePage() {
           <h1 className="text-lg font-bold text-gray-900">今日の習慣</h1>
           <div className="flex items-center gap-2">
             <button
+              onClick={() => navigate('/follow')}
+              className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+              aria-label="フォロー"
+            >
+              👥
+            </button>
+            <button
               onClick={() => setModal({ mode: 'create' })}
               className="w-9 h-9 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xl hover:bg-indigo-600 transition-colors"
               aria-label="習慣を追加"
