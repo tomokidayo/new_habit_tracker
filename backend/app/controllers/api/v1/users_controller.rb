@@ -45,7 +45,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def followed_habits
     target_user = User.find(params[:id])
-    follow = current_user.sent_follows.find_by(followee_id: target_user.id, status: 'accepted')
+    follow = current_user.sent_follows.status_accepted.find_by(followee_id: target_user.id)
     return render json: { error: 'Forbidden' }, status: :forbidden unless follow
 
     habits = target_user.habits.includes(:checkins)

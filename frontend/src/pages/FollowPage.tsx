@@ -52,6 +52,7 @@ export default function FollowPage() {
   }, [searchName])
 
   const handleFollow = async (userId: number) => {
+    setError(null)
     try {
       await createFollow(userId)
       setSearchResults(prev =>
@@ -64,6 +65,7 @@ export default function FollowPage() {
   }
 
   const handleAccept = async (followId: number) => {
+    setError(null)
     try {
       await acceptFollow(followId)
       loadFollows()
@@ -73,6 +75,7 @@ export default function FollowPage() {
   }
 
   const handleDelete = async (followId: number) => {
+    setError(null)
     try {
       await deleteFollow(followId)
       loadFollows()
