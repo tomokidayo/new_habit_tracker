@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "habit-tracker-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "7c32283bbadf4e8ea1d8aec1aedc7d88",
+      "caching": {
+        "disabled": true
+      }
+    }
+  ]
+}
