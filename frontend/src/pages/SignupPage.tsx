@@ -10,6 +10,7 @@ export default function SignupPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [errors, setErrors] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
 
@@ -18,7 +19,7 @@ export default function SignupPage() {
     setErrors([])
     setLoading(true)
     try {
-      const res = await signup(name, email, password)
+      const res = await signup(name, email, password, passwordConfirmation)
       const token = res.headers['authorization']?.replace('Bearer ', '')
       if (!token) throw new Error('token missing')
       setAuth(token, res.data.user)
@@ -70,6 +71,18 @@ export default function SignupPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={PASSWORD_MIN_LENGTH}
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="8文字以上"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">パスワード（確認）</label>
+            <input
+              type="password"
+              value={passwordConfirmation}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
               required
               minLength={PASSWORD_MIN_LENGTH}
               className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"

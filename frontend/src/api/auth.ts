@@ -1,8 +1,8 @@
 import client from './client'
 import type { User } from '../types'
 
-export const signup = (name: string, email: string, password: string) =>
-  client.post<{ user: User }>('/auth/signup', { user: { name, email, password } })
+export const signup = (name: string, email: string, password: string, passwordConfirmation: string) =>
+  client.post<{ user: User }>('/auth/signup', { user: { name, email, password, password_confirmation: passwordConfirmation } })
 
 export const login = (email: string, password: string) =>
   client.post<{ user: User }>('/auth/login', { user: { email, password } })
