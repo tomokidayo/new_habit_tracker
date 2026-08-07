@@ -34,6 +34,10 @@
 /frontend/.env.local
 /frontend/.env.*.local
 
+# Cloudflare Workers (backend-cf)
+/backend-cf/node_modules/
+/backend-cf/.dev.vars
+
 # OS
 .DS_Store
 Thumbs.db
